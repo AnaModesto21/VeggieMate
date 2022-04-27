@@ -26,9 +26,10 @@ const app = express();
 
 // Import all routes
 const products = require("./routes/products.routes");
+const auth = require('./routes/auth.routes')
 
-app.use("/products", products);
-app.use("/admin/products", products);
+app.use("/api", products);
+app.use("/api", auth);
 
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
 require("./error-handling")(app);
