@@ -5,11 +5,42 @@ const jwt = require("jsonwebtoken");
 
 const router = express.Router();
 
-const {regiterUser} = require ('../controllers/authController');
+const {
+    registerUser,
+    loginUser,
+    forgotPassword,
+    resetPassword,
+    getUserProfile,
+    updatePassword,
+    updateProfile,
+    logout,
+    allUsers,
+    getUserDetails,
+    updateUser,
+    deleteUser
 
-router.get("/register", (req, res) => registerUser(req,res));
+} = require('../controllers/authController');
 
-// const {isAuthenticated} = require("../middleware/jwt.middleware")
+
+const { isAuthenticatedUser, authorizeRoles } = require('../middleware/auth')
+
+router.post("/register", (req, res) => registerUser(req,res));
+router.post("/login", (req, res) => loginUser(req,res));
+
+router.post("/password/forgot", (req, res) => forgotPassword(req,res));
+router.put("/password/reset/:token", (req, res) => resetPassword(req,res));
+
+router.get("/logout", (req, res) => logout(req,res));
+
+router.get("/me", (req, res) => (isAuthenticatedUser, getUserProfile)(req,res));
+router.get("/password/update", (req, res) => (isAuthenticatedUser, updatePassword)(req,res));
+router.get("/me/update", (req, res) => (isAuthenticatedUser, updateProfile)(req,res));
+
+router.get("/admin/users", (req, res) => (isAuthenticatedUser, authorizeRoles('admin'), allUsers) (req,res));
+
+router.get("/admin/user/:id", (req, res) => (isAuthenticatedUser, authorizeRoles('admin'), getUserDetails) (req,res));
+router.get("/admin/user/:id", (req, res) => (isAuthenticatedUser, authorizeRoles('admin'), updateUser) (req,res));
+router.get("/admin/user/:id", (req, res) => (isAuthenticatedUser, authorizeRoles('admin'), deleteUser) (req,res));
 
 // router.post("/signup", async (req, res) => {
 //     try {
@@ -68,6 +99,8 @@ router.get("/register", (req, res) => registerUser(req,res));
 //     )
 
 //     res.status(200).json({ authToken });
+
+
 
 // });
 

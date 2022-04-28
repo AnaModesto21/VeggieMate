@@ -33,12 +33,10 @@ class APIFeatures {
         //regex to apply filters for less than/less than equal/ greater than and greater than equal to
         queryStr = queryStr.replace(/\b(gt|gte|lt|lte)\b/g, match => `$${match}`)
 
-        console.log('queryStr :>> ', queryStr);
-
         this.query = this.query.find(JSON.parse(queryStr));
         return this;
     }
-    
+
     pagination(resPerPage) {
         const currentPage = Number(this.queryStr.page) || 1;
         const skip = resPerPage * (currentPage - 1);

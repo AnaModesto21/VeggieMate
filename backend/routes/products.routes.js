@@ -11,8 +11,9 @@ const {
 
 } = require('../controllers/productController');
 
+const { isAuthenticatedUser, authorizeRoles } = require ('../middleware/auth')
 
-router.get("/products", (req, res) => getProducts(req,res));
+router.get("/products", (req, res) => (isAuthenticatedUser, authorizeRoles('admin'), getProducts)(req,res));
 
 // router.get("/admin/products", (req, res) => getAdminProducts(req,res));
 
