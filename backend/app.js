@@ -7,36 +7,38 @@ require("./config/database");
 
 // Handles http requests (express is node js framework)
 // https://www.npmjs.com/package/express
-const express = require("express");
+const express = require('express');
 
 const app = express();
 
-const cookieParser = require('cookie-parser');
+const cookieParser = require('cookie-parser')
+const bodyParser = require('body-parser')
+const fileUpload = require('express-fileupload')
+// const dotenv = require('dotenv');
+const path = require('path')
 
-const errorMiddleware = require ('./middleware/errors');
 
 app.use(express.json());
-app.use(cookieParser());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser())
+app.use(fileUpload());
 
-// ℹ️ This function is getting exported from the config folder. It runs most pieces of middleware
-// require("./config")(app);
-
-// 👇 Start handling routes here
-// Contrary to the views version, all routes are controlled from the routes/index.js
-
+const errorMiddleware = require('./middlewares/errors')
 // Import all routes
-const products = require("./routes/products.routes");
-const auth = require("./routes/auth.routes")
-const allRoutes = require("./routes/index.routes");
+const products = require("./routes/product");
+const auth = require('./routes/auth');
+const payment = require('./routes/payment');
+const order = require('./routes/order');
 
-app.use("/api", allRoutes);
-app.use("/api", products);
-app.use("/api", auth);
+app.use('/products', products);
+app.use('/auth', auth)
+app.use('/payment', payment)
+app.use('/order', order)
 
+// Middleware to handle errors
 app.use(errorMiddleware);
 
-// ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
-require("./error-handling")(app);
-
-
 module.exports = app;
+
+
+
