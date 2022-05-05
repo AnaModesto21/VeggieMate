@@ -6,7 +6,7 @@ const catchAsyncErrors = require("./catchAsyncErrors");
 
 // Checks if user is authenticated or not
 exports.isAuthenticatedUser = catchAsyncErrors(async (req, res, next) => {
-    console.log('isAuthenticatedUser');
+
     const { token } = req.cookies
 
     if (!token) {
@@ -21,7 +21,6 @@ exports.isAuthenticatedUser = catchAsyncErrors(async (req, res, next) => {
 
 // Handling users roles
 exports.authorizeRoles = (...roles) => {
-    console.log('authorizeRoles');
     return (req, res, next) => {
         if (!roles.includes(req.user.role)) {
             return next(
@@ -30,16 +29,3 @@ exports.authorizeRoles = (...roles) => {
         next()
     }
 }
-
-// // test
-// exports.testMid = (req, res, next) => {
-//     console.log('teste mid');
-//     next();
-// }
-
-
-// // test
-// exports.testMid2 = (req, res, next) => {
-//     console.log('teste mid2');
-//     next();
-// }

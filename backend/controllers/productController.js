@@ -6,8 +6,8 @@ const catchAsyncErrors = require('../middlewares/catchAsyncErrors');
 const APIFeatures = require('../utils/apiFeatures')
 const cloudinary = require('cloudinary')
 
-// // Create new product
-    exports.newProduct = catchAsyncErrors(async (req, res, next) => {
+// Create new product   =>   /api/v1/admin/product/new
+exports.newProduct = catchAsyncErrors(async (req, res, next) => {
 
     let images = []
     if (typeof req.body.images === 'string') {
@@ -19,23 +19,14 @@ const cloudinary = require('cloudinary')
     let imagesLinks = [];
 
     for (let i = 0; i < images.length; i++) {
+        const result = await cloudinary.v2.uploader.upload(images[i], {
+            folder: 'products'
+        });
 
-        // image {
-        //     public_id: 'products/headphones_t2afnb',
-        //     url: 'https://res.cloudinary.com/bookit/image/upload/v1606231281/products/headphones_t2afnb.jpg',
-        //     _id: '626dcfdecbfea8cfeefe1465'
-        //   }
-          
-
-
-        // const result = await cloudinary.v2.uploader.upload(images[i], {
-        //     folder: 'products'
-        // });
-
-        // imagesLinks.push({
-        //     public_id: result.public_id,
-        //     url: result.secure_url
-        // })
+        imagesLinks.push({
+            public_id: result.public_id,
+            url: result.secure_url
+        })
     }
 
     req.body.images = imagesLinks
@@ -50,19 +41,22 @@ const cloudinary = require('cloudinary')
 })
 
 
-// // Get all products
-    exports.getProducts = catchAsyncErrors(async (req, res, next) => {
+// Get all products   =>   /api/v1/products?keyword=apple
+exports.getProducts = catchAsyncErrors(async (req, res, next) => {
 
     const resPerPage = 4;
     const productsCount = await Product.countDocuments();
 
-    const apiFeatures = new APIFeatures(Product, req.query)
+    const apiFeatures = new APIFeatures(Product.find(), req.query)
         .search()
         .filter()
-        .pagination(resPerPage)
 
     let products = await apiFeatures.query;
     let filteredProductsCount = products.length;
+
+    apiFeatures.pagination(resPerPage)
+    products = await apiFeatures.query;
+
 
     res.status(200).json({
         success: true,
@@ -74,9 +68,9 @@ const cloudinary = require('cloudinary')
 
 })
 
-// // Get all products (Admin)
-    exports.getAdminProducts = catchAsyncErrors(async (req, res, next) => {
-    console.log('getAdminProducts');
+// Get all products (Admin)  =>   /api/v1/admin/products
+exports.getAdminProducts = catchAsyncErrors(async (req, res, next) => {
+
     const products = await Product.find();
 
     res.status(200).json({
@@ -86,8 +80,8 @@ const cloudinary = require('cloudinary')
 
 })
 
-// // Get single product details
-    exports.getSingleProduct = catchAsyncErrors(async (req, res, next) => {
+// Get single product details   =>   /api/v1/product/:id
+exports.getSingleProduct = catchAsyncErrors(async (req, res, next) => {
 
     const product = await Product.findById(req.params.id);
 
@@ -103,8 +97,8 @@ const cloudinary = require('cloudinary')
 
 })
 
-// // Update Product
-    exports.updateProduct = catchAsyncErrors(async (req, res, next) => {
+// Update Product   =>   /api/v1/admin/product/:id
+exports.updateProduct = catchAsyncErrors(async (req, res, next) => {
 
     let product = await Product.findById(req.params.id);
 
@@ -158,8 +152,8 @@ const cloudinary = require('cloudinary')
 
 })
 
-// // Delete Product
-    exports.deleteProduct = catchAsyncErrors(async (req, res, next) => {
+// Delete Product   =>   /api/v1/admin/product/:id
+exports.deleteProduct = catchAsyncErrors(async (req, res, next) => {
 
     const product = await Product.findById(req.params.id);
 
@@ -182,8 +176,8 @@ const cloudinary = require('cloudinary')
 })
 
 
-// // Create new review
-    exports.createProductReview = catchAsyncErrors(async (req, res, next) => {
+// Create new review   =>   /api/v1/review
+exports.createProductReview = catchAsyncErrors(async (req, res, next) => {
 
     const { rating, comment, productId } = req.body;
 
@@ -193,7 +187,6 @@ const cloudinary = require('cloudinary')
         rating: Number(rating),
         comment
     }
-    //check if user already reviewed the product
 
     const product = await Product.findById(productId);
 
@@ -214,7 +207,6 @@ const cloudinary = require('cloudinary')
         product.numOfReviews = product.reviews.length
     }
 
-    //average ratings
     product.ratings = product.reviews.reduce((acc, item) => item.rating + acc, 0) / product.reviews.length
 
     await product.save({ validateBeforeSave: false });
@@ -226,8 +218,8 @@ const cloudinary = require('cloudinary')
 })
 
 
-// // Get Product Reviews
-    	exports.getProductReviews = catchAsyncErrors(async (req, res, next) => {
+// Get Product Reviews   =>   /api/v1/reviews
+exports.getProductReviews = catchAsyncErrors(async (req, res, next) => {
     const product = await Product.findById(req.query.id);
 
     res.status(200).json({
@@ -236,14 +228,13 @@ const cloudinary = require('cloudinary')
     })
 })
 
-// // Delete Product Review
-    exports.deleteReview = catchAsyncErrors(async (req, res, next) => {
+// Delete Product Review   =>   /api/v1/reviews
+exports.deleteReview = catchAsyncErrors(async (req, res, next) => {
 
     const product = await Product.findById(req.query.productId);
 
     console.log(product);
 
-    //if id is the same, filters, if not, ignores
     const reviews = product.reviews.filter(review => review._id.toString() !== req.query.id.toString());
 
     const numOfReviews = reviews.length;
