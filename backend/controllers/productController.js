@@ -19,23 +19,14 @@ const cloudinary = require('cloudinary')
     let imagesLinks = [];
 
     for (let i = 0; i < images.length; i++) {
+        const result = await cloudinary.v2.uploader.upload(images[i], {
+            folder: 'products'
+        });
 
-        // image {
-        //     public_id: 'products/headphones_t2afnb',
-        //     url: 'https://res.cloudinary.com/bookit/image/upload/v1606231281/products/headphones_t2afnb.jpg',
-        //     _id: '626dcfdecbfea8cfeefe1465'
-        //   }
-          
-
-
-        // const result = await cloudinary.v2.uploader.upload(images[i], {
-        //     folder: 'products'
-        // });
-
-        // imagesLinks.push({
-        //     public_id: result.public_id,
-        //     url: result.secure_url
-        // })
+        imagesLinks.push({
+            public_id: result.public_id,
+            url: result.secure_url
+        })
     }
 
     req.body.images = imagesLinks
