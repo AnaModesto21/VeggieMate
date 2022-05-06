@@ -1,10 +1,5 @@
 const mongoose = require('mongoose')
 
-mongoose.connect('mongodb://localhost/backend', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
-
 const productSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -96,7 +91,7 @@ const productSchema = new mongoose.Schema({
     ],
     user: {
         type: mongoose.Schema.ObjectId,
-        ref: 'user',
+        ref: 'User',
         required: true
     },
     createdAt: {

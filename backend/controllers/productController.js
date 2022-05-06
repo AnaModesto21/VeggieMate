@@ -60,7 +60,7 @@ const cloudinary = require('cloudinary')
             success: true,
             productsCount,
             resPerPage,
-            // filteredProductsCount,
+            filteredProductsCount,
             products
     })
     }, 2000);
