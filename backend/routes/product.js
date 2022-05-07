@@ -18,10 +18,10 @@ const {
 const { isAuthenticatedUser, authorizeRoles } 
 = require('../middlewares/auth');
 
-router.get("/", (req, res) => {
-    res.status(200).json({ message: "lalalalal "})
-});
-// router.get("/", (req, res) => getProducts(req,res));
+// router.get("/", (req, res) => {
+//     res.status(200).json({ message: "lalalalal "})
+// });
+router.get("/", (req, res) => getProducts(req,res));
 router.get("/products/:id", (req, res) => getSingleProduct(req,res));
 
 router.get('/admin/products', isAuthenticatedUser, authorizeRoles('admin'), (req, res) => getAdminProducts(req,res));
