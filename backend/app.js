@@ -36,7 +36,7 @@ const auth = require('./routes/auth');
 const payment = require('./routes/payment');
 const order = require('./routes/order');
 
-app.use('/api', products);
+app.use('/', products);
 app.use('/auth', auth)
 app.use('/payment', payment)
 app.use('/order', order)
