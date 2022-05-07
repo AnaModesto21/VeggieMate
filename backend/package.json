@@ -3,9 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "SET node server.js",
-    "dev": "SET NODE_ENV=DEVELOPMENT& nodemon server.js",
-    "prod": "SET NODE_ENV=PRODUCTION & nodemon server.js",
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "prod": "nodemon server.js",
     "seeder": "node utils/seeder.js"
   },
   "dependencies": {
