@@ -84,7 +84,7 @@ const cloudinary = require('cloudinary')
 // // Get single product details
     exports.getSingleProduct = catchAsyncErrors(async (req, res, next) => {
 
-    const product = await Product.findById(req.params.id);
+    const product = await Product.findById(req.params._id);
 
     if (!product) {
         return next(new ErrorHandler('Product not found', 404));
@@ -101,7 +101,7 @@ const cloudinary = require('cloudinary')
 // // Update Product
     exports.updateProduct = catchAsyncErrors(async (req, res, next) => {
 
-    let product = await Product.findById(req.params.id);
+    let product = await Product.findById(req.params._id);
 
     if (!product) {
         return next(new ErrorHandler('Product not found', 404));
@@ -140,7 +140,7 @@ const cloudinary = require('cloudinary')
 
 
 
-    product = await Product.findByIdAndUpdate(req.params.id, req.body, {
+    product = await Product.findByIdAndUpdate(req.params._id, req.body, {
         new: true,
         runValidators: true,
         useFindAndModify: false
@@ -156,7 +156,7 @@ const cloudinary = require('cloudinary')
 // // Delete Product
     exports.deleteProduct = catchAsyncErrors(async (req, res, next) => {
 
-    const product = await Product.findById(req.params.id);
+    const product = await Product.findById(req.params._id);
 
     if (!product) {
         return next(new ErrorHandler('Product not found', 404));
@@ -236,7 +236,7 @@ const cloudinary = require('cloudinary')
 
     const product = await Product.findById(req.query.productId);
 
-    console.log(product);
+    console.log(productId);
 
     //if id is the same, filters, if not, ignores
     const reviews = product.reviews.filter(review => review._id.toString() !== req.query.id.toString());

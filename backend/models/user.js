@@ -25,11 +25,12 @@ const userSchema = new mongoose.Schema({
     avatar: {
         public_id: {
             type: String,
-            required: true
+            required: false
         },
         url: {
             type: String,
-            required: true
+            required: true,
+            default: 'https://res.cloudinary.com/dr3it978w/image/upload/v1651875535/VeggieMate/lovepik-punching-muscle-santa-png-image_1330601.jpg_wh300_sbmivg.png',
         }
     },
     role: {

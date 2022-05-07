@@ -16,4 +16,4 @@ cloudinary.config ({
     api_secret: process.env.CLOUDINARY_SECRET
 })
 
-dotenv.config({path: '/.env'})
+dotenv.config({path: '.env'})

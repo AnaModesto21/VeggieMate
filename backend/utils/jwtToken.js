@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken')
 
 
 const sendToken = (user, statusCode, res) => {
-
+try{
     // Create Jwt token
     const token = user.getJwtToken();
 
@@ -21,7 +21,9 @@ const sendToken = (user, statusCode, res) => {
         token,
         user
     })
-
+}catch(err){
+    console.log(err);
+}
 }
 
 module.exports = sendToken;

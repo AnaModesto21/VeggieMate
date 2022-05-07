@@ -9,7 +9,7 @@ require("./config/database");
 // Handles http requests (express is node js framework)
 // https://www.npmjs.com/package/express
 const express = require('express');
-
+const cloudinary = require ('cloudinary')
 const app = express();
 
 const cookieParser = require('cookie-parser')
@@ -18,7 +18,11 @@ const fileUpload = require('express-fileupload')
 
 const path = require('path')
 
-
+cloudinary.config ({
+    cloud_name : process.env.CLOUDINARY_NAME,
+    api_key: process.env.CLOUDINARY_KEY,
+    api_secret: process.env.CLOUDINARY_SECRET
+})
 
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -32,7 +36,7 @@ const auth = require('./routes/auth');
 const payment = require('./routes/payment');
 const order = require('./routes/order');
 
-app.use('/products', products)
+app.use('/products', products);
 app.use('/auth', auth)
 app.use('/payment', payment)
 app.use('/order', order)
