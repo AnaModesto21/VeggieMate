@@ -5,6 +5,7 @@
   "scripts": {
     "start": "node server.js",
     "seeder": "node utils/seeder.js"
+    
   },
   "dependencies": {
     "@stripe/stripe-js": "^1.29.0",
