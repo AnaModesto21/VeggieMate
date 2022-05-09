@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node server.js",
-    "seeder": "node utils/seeder.js"
-    
+    "seeder": "node utils/seeder.js",
+    "dev": "nodemon server.js"
   },
   "dependencies": {
     "@stripe/stripe-js": "^1.29.0",
