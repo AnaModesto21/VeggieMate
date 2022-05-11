@@ -23,7 +23,7 @@ const { isAuthenticatedUser, authorizeRoles }
 // });
 router.get("/", (req, res) => getProducts(req,res));
 router.get("/product/:id", (req, res) => getSingleProduct(req,res));
-
+router.delete("/product/:id", (req, res) => deleteProduct(req,res));
 router.put('/review', isAuthenticatedUser , (req, res) => createProductReview(req,res));
 router.put('/reviews', isAuthenticatedUser , (req, res) => getProductReviews(req,res));
 router.put('/reviews', isAuthenticatedUser , (req, res) => deleteReview(req,res));
