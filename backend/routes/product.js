@@ -22,7 +22,7 @@ const { isAuthenticatedUser, authorizeRoles }
 //     res.status(200).json({ message: "lalalalal "})
 // });
 router.get("/", (req, res) => getProducts(req,res));
-router.get("/products/:id", (req, res) => getSingleProduct(req,res));
+router.get("/product/:id", (req, res) => getSingleProduct(req,res));
 
 router.put('/review', isAuthenticatedUser , (req, res) => createProductReview(req,res));
 router.put('/reviews', isAuthenticatedUser , (req, res) => getProductReviews(req,res));

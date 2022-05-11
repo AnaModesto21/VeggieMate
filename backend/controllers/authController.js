@@ -212,8 +212,6 @@ exports.logout = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
-// Admin Routes
-
 // Get all users
 exports.allUsers = catchAsyncErrors(async (req, res, next) => {
   const users = await User.find();
