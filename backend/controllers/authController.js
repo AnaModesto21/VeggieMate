@@ -68,7 +68,8 @@ exports.forgotPassword = catchAsyncErrors(async (req, res, next) => {
   const user = await User.findOne({ email: req.body.email });
 
   if (!user) {
-    return next(new ErrorHandler("User not found with this email", 404));
+    //return next(new ErrorHandler("User not found with this email", 404));
+    return res.status(404).send({error: 'User not found with this email'});
   }
 
   // Get reset token
@@ -100,7 +101,8 @@ exports.forgotPassword = catchAsyncErrors(async (req, res, next) => {
 
     await user.save({ validateBeforeSave: false });
 
-    return next(new ErrorHandler(error.message, 500));
+    //return next(new ErrorHandler(error.message, 500));
+    return res.status(404).send({error: error.message});
   }
 });
 
@@ -124,7 +126,8 @@ exports.resetPassword = catchAsyncErrors(async (req, res, next) => {
   }
 
   if (req.body.password !== req.body.confirmPassword) {
-    return next(new ErrorHandler("Password does not match", 400));
+    //return next(new ErrorHandler("Password does not match", 400));
+    return res.status(404).send({error: "Password does not match"});
   }
 
   // Setup new password
@@ -155,7 +158,8 @@ exports.updatePassword = catchAsyncErrors(async (req, res, next) => {
   // Check previous user password
   const isMatched = await user.comparePassword(req.body.oldPassword);
   if (!isMatched) {
-    return next(new ErrorHandler("Old password is incorrect", 400));
+   //return next(new ErrorHandler("Old password is incorrect", 400));
+   return res.status(404).send({error: "Old password is incorrect"});
   }
 
   user.password = req.body.password;

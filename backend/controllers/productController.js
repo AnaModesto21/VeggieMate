@@ -107,7 +107,8 @@ const cloudinary = require('cloudinary')
     let product = await Product.findById(req.params._id);
 
     if (!product) {
-        return next(new ErrorHandler('Product not found', 404));
+        //return next(new ErrorHandler('Product not found', 404));
+        return res.status(404).send({error: "Product not found"});
     }
 
     let images = []
