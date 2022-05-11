@@ -87,9 +87,12 @@ const cloudinary = require('cloudinary')
     const product = await Product.findById(req.params._id);
 
     if (!product) {
-        return next(new ErrorHandler('Product not found', 404));
+        //return ('Product not found', 404);
+        return res.status(404).json({
+            success: false,
+            message: 'Product not found'
+        })
     }
-
 
     res.status(200).json({
         success: true,
