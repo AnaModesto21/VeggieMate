@@ -42,7 +42,7 @@ exports.getSingleOrder = catchAsyncErrors(async (req, res, next) => {
 
     if (!order) {
         //return next(new ErrorHandler('No Order found with this ID', 404))
-        return res.status(404).send({error: "No Order found with this ID"});
+        return res.status(404).send({message: "No Order found with this ID"});
     }
 
     res.status(200).json({
@@ -85,7 +85,7 @@ exports.updateOrder = catchAsyncErrors(async (req, res, next) => {
 
     if (order.orderStatus === 'Delivered') {
         //return next(new ErrorHandler('You have already delivered this order', 400))
-        return res.status(404).send({error: "You have already delivered this order"});
+        return res.status(404).send({message: "You have already delivered this order"});
     }
 
     order.orderItems.forEach(async item => {
@@ -116,7 +116,7 @@ exports.deleteOrder = catchAsyncErrors(async (req, res, next) => {
 
     if (!order) {
         //return next(new ErrorHandler('No Order found with this ID', 404))
-        return res.status(404).send({error: "No Order found with this ID"});
+        return res.status(404).send({message: "No Order found with this ID"});
     }
 
     await order.remove()

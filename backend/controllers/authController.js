@@ -30,8 +30,8 @@ exports.registerUser = async (req, res, next) => {
 
     sendToken(user, 200, res);
   } catch (err) {
-    if(err.code === 11000) res.status(409).send({error: 'user already exists'});
-    else res.status(500).send({error: "something went wrong"});
+    if(err.code === 11000) res.status(409).send({message: 'user already exists'});
+    else res.status(500).send({message: "something went wrong"});
   }
 };
 
@@ -69,7 +69,7 @@ exports.forgotPassword = catchAsyncErrors(async (req, res, next) => {
 
   if (!user) {
     //return next(new ErrorHandler("User not found with this email", 404));
-    return res.status(404).send({error: 'User not found with this email'});
+    return res.status(404).send({message: 'User not found with this email'});
   }
 
   // Get reset token
@@ -102,7 +102,7 @@ exports.forgotPassword = catchAsyncErrors(async (req, res, next) => {
     await user.save({ validateBeforeSave: false });
 
     //return next(new ErrorHandler(error.message, 500));
-    return res.status(404).send({error: error.message});
+    return res.status(404).send({message: error.message});
   }
 });
 
@@ -127,7 +127,7 @@ exports.resetPassword = catchAsyncErrors(async (req, res, next) => {
 
   if (req.body.password !== req.body.confirmPassword) {
     //return next(new ErrorHandler("Password does not match", 400));
-    return res.status(404).send({error: "Password does not match"});
+    return res.status(404).send({message: "Password does not match"});
   }
 
   // Setup new password
@@ -159,7 +159,7 @@ exports.updatePassword = catchAsyncErrors(async (req, res, next) => {
   const isMatched = await user.comparePassword(req.body.oldPassword);
   if (!isMatched) {
    //return next(new ErrorHandler("Old password is incorrect", 400));
-   return res.status(404).send({error: "Old password is incorrect"});
+   return res.status(404).send({message: "Old password is incorrect"});
   }
 
   user.password = req.body.password;
