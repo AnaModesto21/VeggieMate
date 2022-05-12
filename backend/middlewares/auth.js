@@ -7,8 +7,10 @@ const router = express.Router();
 // Checks if user is authenticated or not
 exports.isAuthenticatedUser = catchAsyncErrors(async (req, res, next) => {
 
-    const { token } = req.cookies
-
+    
+    //const { token } = req.cookies
+    const token = (req.header('authorization')).replace('Bearer ','');
+    
     if (!token) {
         //return next(new ErrorHandler('Login first to access this resource.', 401))
         return res.status(404).send({message: "Login first to access this resource."});
