@@ -14,8 +14,6 @@ exports.processPayment = async (req, res, next) => {
       payment_method_types: ["card"],
     });
 
-console.log('paymentIntent', paymentIntent);
-console.log('paymentIntent', paymentIntent);
     res.status(200).json({
       success: true,
       client_secret: paymentIntent.client_secret,
