@@ -50,12 +50,16 @@ const cloudinary = require('cloudinary')
     const apiFeatures = new APIFeatures(Product.find(), req.query)
         .search()
         .filter()
-        .pagination(resPerPage)
+        // .pagination(resPerPage)
 
     let products = await apiFeatures.query;
     let filteredProductsCount = products.length;
 
-    setTimeout(()=> {
+
+    apiFeatures.pagination(resPerPage)
+    products = await apiFeatures.query.clone()
+    
+
         res.status(200).json({
             success: true,
             productsCount,
@@ -63,11 +67,8 @@ const cloudinary = require('cloudinary')
             filteredProductsCount,
             products
     })
-    }, 2000);
+    });
 
-    
-
-})
 
 // // Get all products (Admin)
     exports.getAdminProducts = catchAsyncErrors(async (req, res, next) => {
