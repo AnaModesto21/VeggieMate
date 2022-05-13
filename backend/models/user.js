@@ -30,7 +30,7 @@ const userSchema = new mongoose.Schema({
         url: {
             type: String,
             required: true,
-            default: 'https://res.cloudinary.com/dr3it978w/image/upload/v1651875535/VeggieMate/lovepik-punching-muscle-santa-png-image_1330601.jpg_wh300_sbmivg.png',
+            default: 'https://res.cloudinary.com/dr3it978w/image/upload/v1652442757/VeggieMate/istockphoto-1300845620-612x612_qorbxy.jpg',
         }
     },
     role: {
